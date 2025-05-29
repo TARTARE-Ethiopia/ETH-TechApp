@@ -13,6 +13,8 @@ format:
          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
          \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
 number-sections: true
+execute:
+  echo: false
 bibliography: references.bib
 csl: journal-of-food-protection.csl
 ---
@@ -47,7 +49,7 @@ library(knitr)        # for including graphics
 
 This document provides detailed information on the data analysis and visualization of results from the workshops with governmental decision makers and relevant stakeholders to identify, rank and prioritize food safety hazards in Ethiopia as described in the manuscript "A proposed framework for ranking and prioritizing food safety risks in low resource settings using foodborne disease burden metrics: a case study in Ethiopia" by [B. Kowalcyk *et al*](https://doi.org/10.1016/j.jfp.2025.100525).
 
-Code and data are available on GitHub for the [dashboard](https://github.com/TARTARE-Ethiopia/ETH_Dashboard) and [technical appendix](https://github.com/TARTARE-Ethiopia/ETH-TechApp).
+Code and data are available on GitHub for the [dashboard](https://github.com/TARTARE-Ethiopia/ETH_Dashboard) and [technical appendix](https://github.com/TARTARE-Ethiopia/ETH-TechApp). The latter repository also includes a pdf file with all code visible.
 
 # Disease burden estimates
 
@@ -1242,10 +1244,6 @@ tbl_uni2 <- tbl_uni %>%
     rank1Medium = "Median",
     X2.5.. = "2.5%",
     X97.5.. = "97.5%"
-  ) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
   )
 
 tbl_uni2
@@ -1336,10 +1334,6 @@ tbl_multi <- tbl_multi %>%
     OR = "Median",
     "2.5%" = "2.5%",
     "97.5%" = "97.5%"
-  ) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
   )
 
 tbl_multi
@@ -1465,11 +1459,7 @@ The average of expert attribution estimates is presented in @tbl-exp-avg. For ea
 #| label: tbl-exp-avg
 #| tbl-cap: "Average of expert attribution estimates in Round 1 (%). See full food group names in Figure 16."
 #| 
-gt(exp_avg_round1) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+gt(exp_avg_round1)
 ```
 
 ## Expert agreement
@@ -1547,11 +1537,7 @@ sd_all <- sd_all %>%
 ```{r}
 #| label: tbl-sd
 #| tbl-cap: "Standard deviation of expert attribution estimates in Round 1 (%)"
-gt(sd_all)%>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+gt(sd_all)
 ```
 
 ## Expert rationale
@@ -1603,11 +1589,7 @@ Updated expert estimates are provided in @tbl-exp-avg2. Because of the low numbe
 ```{r}
 #| label: tbl-exp-avg2
 #| tbl-cap: "Average of expert attribution estimates in Round 2(%)"
-gt(exp_avg_round2) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+gt(exp_avg_round2)
 ```
 
 ## Attribution to food groups
@@ -1631,11 +1613,7 @@ FERG has not presented attribution estimates to food groups for pathogens with h
 #| tbl-cap: "Prior attribution estimates (percent)"
 #| tbl-cap-location: top
 #| 
-gt(attr_prior) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+gt(attr_prior) 
 
 ```
 
@@ -1658,11 +1636,7 @@ attr_post[ ,2:12] <- apply(attr_post[ , 2:12], 2,
 #| label: tbl-post-attr
 #| tbl-cap: "Posterior attribution combining estimates from experts in Ethiopia and from FERG"
 
-gt(attr_post) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+gt(attr_post)
 ```
 
 ## Updated attributable deaths
@@ -1686,10 +1660,7 @@ saveRDS(attr_deaths_post, "attr_deaths_post.rds")
 #| tbl-cap: "Attributable deaths by hazard and food group, combining attribution estimates from experts in Ethiopia and literature"
 attr_deaths_post %>% 
   adorn_totals() %>%
-  gt() %>% 
-    tab_options(
-      table.font.style = px(10),
-      table.font.names = "Garamond")
+  gt()
 ```
 
 The code below creates a data frame and two plots showing the distribution of attributable deaths by hazard and food group. Plots are included in the main text of the manuscript.
@@ -1808,17 +1779,12 @@ chem = md("**Chemicals**"),
 total = md("**Total**"),
 .fn = md
 ) %>% 
-  cols_align("center") %>% 
-tab_options(table.width = pct(100), table.font.size = pct(75)) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+  cols_align("center")
 ```
 
 ## Supply Chain Control Points
 
-Participants identified SCCPs in the four selected farm-to-fork chains and then weighted the relative impact of each SCCP on preventing deaths due to three hazard categories: anthroponotic pathogens, zoonotic pathogens and chemicals. They distributed 10 points per hazard category over each identified SCCP in the corresponding food supply chain in a group discussion. The number of preventable deaths by each SCCP was then calculated as the proportion of points assigned to that SCCP, multiplied by the number of attributable deaths per hazard category for each food chain separately, see @tbl-ccp_drm, @tbl-ccp_dr, @tbl-ccp_pl, @tbl-ccp_vg.
+Participants identified SCCPs in the four selected farm-to-fork chains and then weighted the relative impact of each SCCP on preventing deaths due to three hazard categories: anthroponotic pathogens, zoonotic pathogens and chemicals. They distributed 10 points per hazard category over each identified SCCP in the corresponding food supply chain in a group discussion. The number of preventable deaths by each SCCP was then calculated as the proportion of points assigned to that SCCP, multiplied by the number of attributable deaths per hazard category for each food chain separately, see @tbl-ccp_rm1 through @tbl-ccp_vg2.
 
 ```{r}
 
@@ -1835,38 +1801,44 @@ ccp_drm <- cbind(ccp_rm, ccp_drm)
 ```
 
 ```{r}
-#| label: tbl-ccp_drm
-#| tbl-cap: "Contribution of SCCPs in the beef and small ruminant meat value chains to preventing foodborne deaths in Ethiopia"
+#| label: tbl-ccp_rm1
+#| tbl-cap: "Relative contribution of SCCPs in the beef and small ruminant meat value chains to reducing foodborne deaths in Ethiopia"
 #| tbl-cap-location: top
 #| warning: false
 
-gt(ccp_drm) %>% 
-  tab_spanner(
-    label = md("**Relative contribution to preventing deaths by category**"),
-    columns = c(anthro, zoon, chem)
-  ) %>% 
-  tab_spanner(
-  label = md("**Preventable deaths by category**"),
-  columns = c(danthro, dzoon, dchem)
-  ) %>% 
-  cols_label(
+ccp_drm %>%
+  select(step, ccp, anthro, zoon, chem) %>%
+gt() %>%
+cols_label(
 step = md("**Step**"),
 ccp = md("**SCCP**"),
-anthro = md("**Anthroponotic<br>Pathogens**"),
-zoon = md("**Zoonotic<br>Pathogens**"),
+anthro = md("**Anthroponotic**"),
+zoon = md("**Zoonotic**"),
 chem = md("**Chemicals**"),
-danthro = md("**Anthroponotic<br>Pathogens**"),
-dzoon = md("**Zoonotic<br>Pathogens**"),
+.fn = md
+) %>% 
+  cols_align("center")
+```
+
+```{r}
+#| label: tbl-ccp_rm2
+#| tbl-cap: "Preventable deaths by SCCPs in the beef and small ruminant meat value chains in Ethiopia"
+#| tbl-cap-location: top
+#| warning: false
+
+ccp_drm %>%
+  select(step, ccp, danthro, dzoon, dchem, dtotal) %>%
+gt() %>% 
+cols_label(
+step = md("**Step**"),
+ccp = md("**SCCP**"),
+danthro = md("**Anthroponotic**"),
+dzoon = md("**Zoonotic**"),
 dchem = md("**Chemicals**"),
 dtotal = md("**Total Deaths**"),
 .fn = md
 ) %>% 
-  cols_align("center") %>% 
-tab_options(table.width = pct(100), table.font.size = pct(80)) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+  cols_align("center")
 ```
 
 ```{r}
@@ -1883,38 +1855,43 @@ ccp_ddr <- cbind(ccp_dr, ccp_ddr)
 ```
 
 ```{r}
-#| label: tbl-ccp_dr
+#| label: tbl-ccp_dr1
 #| tbl-cap: "Relative contribution of SCCPs in the dairy value chain to reducing foodborne deaths in Ethiopia"
 #| tbl-cap-location: top
 #| warning: false
 
-gt(ccp_ddr) %>% 
-  tab_spanner(
-    label = md("**Relative contribution to preventing deaths by category**"),
-    columns = c(anthro, zoon, chem)
-  ) %>% 
-  tab_spanner(
-  label = md("**Preventable deaths by category**"),
-  columns = c(danthro, dzoon, dchem)
-  ) %>% 
-  cols_label(
+ccp_ddr %>%
+  select(step, ccp, anthro, zoon, chem) %>%
+gt() %>%
+cols_label(
 step = md("**Step**"),
 ccp = md("**SCCP**"),
-anthro = md("**Anthroponotic<br>Pathogens**"),
-zoon = md("**Zoonotic<br>Pathogens**"),
+anthro = md("**Anthroponotic**"),
+zoon = md("**Zoonotic**"),
 chem = md("**Chemicals**"),
-danthro = md("**Anthroponotic<br>Pathogens**"),
-dzoon = md("**Zoonotic<br>Pathogens**"),
+.fn = md
+)
+```
+
+```{r}
+#| label: tbl-ccp_dr2
+#| tbl-cap: "Preventable deaths by SCCPs in the dairy value chain in Ethiopia"
+#| tbl-cap-location: top
+#| warning: false
+
+ccp_ddr %>%
+  select(step, ccp, danthro, dzoon, dchem, dtotal) %>%
+gt() %>% 
+cols_label(
+step = md("**Step**"),
+ccp = md("**SCCP**"),
+danthro = md("**Anthroponotic**"),
+dzoon = md("**Zoonotic**"),
 dchem = md("**Chemicals**"),
 dtotal = md("**Total Deaths**"),
 .fn = md
 ) %>% 
-  cols_align("center") %>% 
-tab_options(table.width = pct(100), table.font.size = pct(80)) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+  cols_align("center")
 ```
 
 ```{r}
@@ -1931,39 +1908,45 @@ ccp_dpl <- cbind(ccp_pl, ccp_dpl)
 ```
 
 ```{r}
-#| label: tbl-ccp_pl
-#| tbl-cap: "Relative contribution of SCCPs in the poultry and eggs value chains to reducing foodborne deaths in Ethiopia"
+#| label: tbl-ccp_pl1
+#| tbl-cap: "Relative contribution of SCCPs in the poultry value chain to reducing foodborne deaths in Ethiopia"
 #| tbl-cap-location: top
 #| warning: false
 
-gt(ccp_dpl) %>% 
-  tab_spanner(
-    label = md("**Relative contribution to preventing deaths by category**"),
-    columns = c(anthro, zoon, chem)
-  ) %>% 
-  tab_spanner(
-  label = md("**Preventable deaths by category**"),
-  columns = c(danthro, dzoon, dchem)
-  ) %>% 
-  cols_label(
+ccp_dpl %>%
+  select(step, ccp, anthro, zoon, chem) %>%
+gt() %>%
+cols_label(
 step = md("**Step**"),
 ccp = md("**SCCP**"),
-anthro = md("**Anthroponotic<br>Pathogens**"),
-zoon = md("**Zoonotic<br>Pathogens**"),
+anthro = md("**Anthroponotic**"),
+zoon = md("**Zoonotic**"),
 chem = md("**Chemicals**"),
-danthro = md("**Anthroponotic<br>Pathogens**"),
-dzoon = md("**Zoonotic<br>Pathogens**"),
+.fn = md
+)
+```
+
+```{r}
+#| label: tbl-ccp_pl2
+#| tbl-cap: "Preventable deaths by SCCPs in the poultry value chain in Ethiopia"
+#| tbl-cap-location: top
+#| warning: false
+
+ccp_dpl %>%
+  select(step, ccp, danthro, dzoon, dchem, dtotal) %>%
+gt() %>% 
+cols_label(
+step = md("**Step**"),
+ccp = md("**SCCP**"),
+danthro = md("**Anthroponotic**"),
+dzoon = md("**Zoonotic**"),
 dchem = md("**Chemicals**"),
 dtotal = md("**Total Deaths**"),
 .fn = md
 ) %>% 
-  cols_align("center") %>% 
-tab_options(table.width = pct(100), table.font.size = pct(80)) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+  cols_align("center")
 ```
+
 
 ```{r}
 
@@ -1979,50 +1962,53 @@ ccp_dvg <- cbind(ccp_vg, ccp_dvg)
 ```
 
 ```{r}
-#| label: tbl-ccp_vg
-#| tbl-cap: "Relative contribution of SCCPs in the vegetable value chains to reducing foodborne deaths in Ethiopia"
+#| label: tbl-ccp_vg1
+#| tbl-cap: "Relative contribution of SCCPs in the vegetable value chain to reducing foodborne deaths in Ethiopia"
 #| tbl-cap-location: top
 #| warning: false
 
-gt(ccp_dvg) %>% 
-  tab_spanner(
-    label = md("**Relative contribution to preventing deaths by category**"),
-    columns = c(anthro, zoon, chem)
-  ) %>% 
-  tab_spanner(
-  label = md("**Preventable deaths by category**"),
-  columns = c(danthro, dzoon, dchem)
-  ) %>% 
-  cols_label(
+ccp_dvg %>%
+  select(step, ccp, anthro, zoon, chem) %>%
+gt() %>%
+cols_label(
 step = md("**Step**"),
 ccp = md("**SCCP**"),
-anthro = md("**Anthroponotic<br>Pathogens**"),
-zoon = md("**Zoonotic<br>Pathogens**"),
+anthro = md("**Anthroponotic**"),
+zoon = md("**Zoonotic**"),
 chem = md("**Chemicals**"),
-danthro = md("**Anthroponotic<br>Pathogens**"),
-dzoon = md("**Zoonotic<br>Pathogens**"),
+.fn = md
+)
+```
+
+```{r}
+#| label: tbl-ccp_vg2
+#| tbl-cap: "Preventable deaths by SCCPs in the vegetable value chain in Ethiopia"
+#| tbl-cap-location: top
+#| warning: false
+
+ccp_dvg %>%
+  select(step, ccp, danthro, dzoon, dchem, dtotal) %>%
+gt() %>% 
+cols_label(
+step = md("**Step**"),
+ccp = md("**SCCP**"),
+danthro = md("**Anthroponotic**"),
+dzoon = md("**Zoonotic**"),
 dchem = md("**Chemicals**"),
 dtotal = md("**Total Deaths**"),
 .fn = md
 ) %>% 
-  tab_footnote(
-    footnote = "Running water, waste management, prevention of animal access, display areass",
-    locations = cells_body(columns = ccp, rows = 6),) %>% 
-  opt_footnote_marks(marks = "standard") %>% 
-  cols_align("center") %>% 
-tab_options(table.width = pct(100), table.font.size = pct(80)) %>% 
-  tab_options(
-    table.font.style = px(10),
-    table.font.names = "Garamond"
-  )
+  cols_align("center")
 ```
+
+{{< pagebreak >}}
 
 # References {.unnumbered}
 
 ::: {#refs}
 :::
 
-# Session information {.unnumbered}
+                                                   # Session information {.unnumbered}
 
 ```{r}
 sessioninfo::session_info(pkgs = c("attached"))
