@@ -1007,7 +1007,7 @@ include_graphics("w-scatter.png")
 
 ### Add New Hazards
 
-The Add New Hazards tab allows users to generate data for custom hazards. Detaile dinstructions are provided on the web page (@fig-simulation).
+The Add New Hazards tab allows users to generate data for custom hazards. Detailed dinstructions are provided on the web page (@fig-simulation).
 
 ```{r}
 #| label: fig-simulation
@@ -1078,7 +1078,9 @@ rank1 <- ggplot(rr_dat, aes(x = hazard, fill = rank1)) +
     labs(x = "Hazard", y = "Count", fill = "Rank") +
     scale_fill_brewer(palette = "Set2") +
     coord_flip() +
-    scale_x_discrete(labels = haz_labels)
+    scale_x_discrete(labels = haz_labels) + 
+  theme(legend.position='top')  + 
+  theme(axis.text=element_text(size = 6))
 
 ggsave(filename = "rank1", plot = rank1, device = "tiff", width = 3, height = 2, unit = "in", dpi = 300)
 
@@ -1087,7 +1089,9 @@ rank2 <- ggplot(rr_dat, aes(x = hazard, fill = rank2)) +
     labs(x = "Hazard", y = "Count", fill = "Rank") +
      scale_fill_brewer(palette = "Set2") +
     coord_flip() +
-    scale_x_discrete(labels = haz_labels)
+    scale_x_discrete(labels = haz_labels) + 
+  theme(legend.position='top') + 
+  theme(axis.text=element_text(size = 6))
 
 ggsave(filename = "rank2", plot = rank1, device = "tiff", width = 3, height = 2, unit = "in", dpi = 300)
 
@@ -1096,7 +1100,9 @@ ggsave(filename = "rank2", plot = rank1, device = "tiff", width = 3, height = 2,
 mosaic_r12 <- ggplot(data = rr_dat) +
     geom_mosaic(aes(x = product(rank2, rank1), fill = rank2)) +
     scale_fill_brewer(palette = "Set2") +
-    labs(y="Round 2", x="Round 1", fill = "Rank")
+    labs(y="Round 2", x="Round 1", fill = "Rank") + 
+  theme(legend.position='top') + 
+  theme(axis.text=element_text(size = 6))
 
 ggsave(filename = "mosaic_r12", plot = rank1, device = "tiff", width = 3, height = 2, unit = "in", dpi = 300)
 
@@ -1105,7 +1111,9 @@ mosaic_r12_sub <- ggplot(data = rr_dat) +
     scale_fill_brewer(palette = "Set2") +
     labs(y="Round 2", x="Round 1", fill = "Rank") +
     facet_wrap(~metric1, 
-               labeller = labeller(metric1 = c("daly" = "DALYs", "incidence" = "Incidence", "cfr" = "Case-Fatality Ratio", "mortality" = "Mortality")))
+               labeller = labeller(metric1 = c("daly" = "DALYs", "incidence" = "Incidence", "cfr" = "Case-Fatality Ratio", "mortality" = "Mortality"))) + 
+  theme(legend.position='top') + 
+  theme(axis.text=element_text(size = 6))
 
 ggsave(filename = "mosaic_r12_sub", plot = rank1, device = "tiff", width = 3, height = 2, unit = "in", dpi = 300)
 ```
@@ -1532,7 +1540,7 @@ sd_all <- sd_all %>%
 
 ```
 
-@tbl-sd shows a metric for the (dis)agreement between experts, i.e., the standard deviation of the estimates (in percent) for each food-hazard pair. A zero in the table means that there was full agreement among the experts, the higher the value, the more disagreement. The final column in @tbl-sd shows the average standard deviation across each row, i.e., for each hazard. We note the the experts agreed most on `r sd_all$Hazard[which(sd_all$Average[c(1:5, 7:12)] == min(sd_all$Average[c(1:5, 7:12)]))]` and least on `r sd_all$Hazard[which(sd_all$Average[c(1:5, 7:12)] == max(sd_all$Average[c(1:5, 7:12)])) +1]`. For food groups, experts agreed most on `r colnames(sd_all)[which(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))] == min(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))])) + 1]` and least on `r colnames(sd_all)[which(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))] == max(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))])) + 1]`. Note that *Mycobacterium bovis* was excluded from these considerations because it was assigned 100% to dairy by the study team.
+@tbl-sd shows a metric for the (dis)agreement between experts, i.e., the standard deviation of the estimates (in percent) for each food-hazard pair. A zero in the table means that there was full agreement among the experts, the higher the value, the more disagreement. The final column in @tbl-sd shows the average standard deviation across each row, i.e., for each hazard. We note the the experts agreed most on `r sd_all$Hazard[which(sd_all$Average[c(1:5, 7:12)] == min(sd_all$Average[c(1:5, 7:12)]))]` and least on `r sd_all$Hazard[which(sd_all$Average[c(1:5, 7:12)] == max(sd_all$Average[c(1:5, 7:12)])) +1]` (full food group names in Figure 16). For food groups, experts agreed most on `r colnames(sd_all)[which(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))] == min(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))])) + 1]` and least on `r colnames(sd_all)[which(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))] == max(sd_all[nrow(sd_all), c(2: (ncol(sd_all) -1))])) + 1]`. Note that *Mycobacterium bovis* was excluded from these considerations because it was assigned 100% to dairy by the study team.
 
 ```{r}
 #| label: tbl-sd
@@ -1594,7 +1602,15 @@ gt(exp_avg_round2)
 
 ## Attribution to food groups
 
-In the risk ranking workshop, the experts indicated that mortality was the main metric considered in hazard ranking. This was also evident from the analysis presented in @tbl-multi. Therefore, data on deaths per hazard/ food group were presented as the key input in the risk prioritization workshop. Note that attribution of foodborne deaths was assumed to be proportional to attribution of foodborne disease cases. In total, `r sum(deaths)` deaths were estimated to have occurred in 2010 due to foodborne disease in Ethiopia. The proportion of cases attributed by FERG to different food/hazard combinations for the AFRE subregion, to which Ethiopia belongs, is shown in @tbl-prior-attr. These estimates are the average for the subregion, and were updated for Ethiopia using the results from the Delphi survey.
+```{r}
+options(scipen=999)
+```
+
+In the risk ranking workshop, the experts indicated that mortality was the main metric considered in hazard ranking. This was also evident from the analysis presented in @tbl-multi. Therefore, data on deaths per hazard/ food group were presented as the key input in the risk prioritization workshop. Note that attribution of foodborne deaths was assumed to be proportional to attribution of foodborne disease cases. In total, `r round(sum(deaths), 2)` deaths were estimated to have occurred in 2010 due to foodborne disease in Ethiopia. The proportion of cases attributed by FERG to different food/hazard combinations for the AFRE subregion, to which Ethiopia belongs, is shown in @tbl-prior-attr. These estimates are the average for the subregion, and were updated for Ethiopia using the results from the Delphi survey.
+
+```{r}
+options(scipen=0)
+```
 
 ```{r}
 #| include: false
@@ -1947,7 +1963,6 @@ dtotal = md("**Total Deaths**"),
   cols_align("center")
 ```
 
-
 ```{r}
 
 ccp_vg <- read_excel("SCCPs_scores.xlsx", sheet = "veg")
@@ -2008,7 +2023,9 @@ dtotal = md("**Total Deaths**"),
 ::: {#refs}
 :::
 
-                                                   # Session information {.unnumbered}
+
+# Session information {.unnumbered}
+
 
 ```{r}
 sessioninfo::session_info(pkgs = c("attached"))
